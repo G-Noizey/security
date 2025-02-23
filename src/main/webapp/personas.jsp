@@ -21,7 +21,7 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Gestión de Personas</h1>
-        <a href="CerrarSesionServlet" class="btn btn-danger">Cerrar Sesión</a>
+        <a href="logout" class="btn btn-danger">Cerrar Sesión</a>
     </div>
 
     <div class="row">
@@ -32,19 +32,19 @@
                 <input type="hidden" id="idPersona">
                 <div class="mb-3">
                     <label>Nombre</label>
-                    <input type="text" class="form-control" id="nombre" required>
+                    <input type="text" class="form-control" id="nombre" placeholder="Ingresa el nombre" required>
                 </div>
                 <div class="mb-3">
                     <label>Correo</label>
-                    <input type="email" class="form-control" id="correo" required>
+                    <input type="email" class="form-control" id="correo" placeholder="Ingresa el correo electrónico" required>
                 </div>
                 <div class="mb-3">
                     <label>Teléfono</label>
-                    <input type="text" class="form-control" id="telefono" required>
+                    <input type="text" class="form-control" id="telefono" placeholder="Ingresa el número de teléfono" required>
                 </div>
                 <div class="mb-3">
                     <label>Edad</label>
-                    <input type="number" class="form-control" id="edad" required>
+                    <input type="number" class="form-control" id="edad" placeholder="Ingresa la edad" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
@@ -82,6 +82,12 @@
             event.preventDefault();
             guardarPersona();
         });
+
+        // Previene el retroceso y la manipulación del historial
+        window.history.pushState(null, null, window.location.href); // Cambia la URL sin recargar
+        window.onpopstate = function () {
+            window.history.pushState(null, null, window.location.href); // Previene la acción de retroceder
+        };
     });
 
     function cargarPersonas() {
@@ -167,7 +173,6 @@
         xhr.send();
     }
 
-
     function guardarPersona() {
         let id = document.getElementById("idPersona").value;
         let nombre = document.getElementById("nombre").value;
@@ -205,7 +210,6 @@
         xhr.send(JSON.stringify(data));
     }
 
-
     function eliminarPersona(id) {
         console.log("Intentando eliminar persona con ID:", id); // Verifica si el ID es correcto
 
@@ -235,9 +239,6 @@
             }
         });
     }
-
-
-
 </script>
 </body>
 </html>
